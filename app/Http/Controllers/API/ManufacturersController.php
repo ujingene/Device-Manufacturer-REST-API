@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Manufacturer;
-use App\Http\Resources\Manufacturer as ManufacturerResource;
+use App\Http\Resources\ManufacturerResource as ManufacturerResource;
 
 class ManufacturersController extends Controller
 {

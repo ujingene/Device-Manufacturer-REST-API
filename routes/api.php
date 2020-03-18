@@ -14,3 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::apiResource('smart-device', 'API\DeviceController');
+
+//Manufacturers Route
+Route::apiResource('manufacturers', 'API\ManufacturersController');

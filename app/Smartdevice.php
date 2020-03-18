@@ -15,7 +15,7 @@ class Smartdevice extends Model
     */
     protected $fillable = ['manufacturer_id', 'description']; 
 
-    public function device(){
+    public function manufacurer(){
         return $this->belongsTo('App\Manufacturer');
     }
 

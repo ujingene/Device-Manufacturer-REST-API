@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Manufacturer;
-use App\Http\Resources\ManufacturerResource as ManufacturerResource;
+use App\Http\Resources\Manufacturer as ManufacturerResource;
 
 class ManufacturersController extends Controller
 {
@@ -16,7 +16,7 @@ class ManufacturersController extends Controller
      */
     public function index()
     {
-        $manufactures = Manufacturer::all();
+        $manufactures = Manufacturer::with('devices');
 
         return ManufacturerResource::collection($manufactures);
     }

@@ -13,18 +13,7 @@ class DeviceController extends Controller
 {
     public function index()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding");
-
-        //get all devices
-        $devices = DB::table('smartdevices')
-            ->leftJoin('manufacturers', 'smartdevices.manufacturer_id', '=', 'manufacturers.id')
-            ->select('smartdevices.id as id', 'smartdevices.manufacturer_id as manufacturer_id', 
-            'smartdevices.description as description', 'smartdevices.updated_at as updated_at', 
-            'smartdevices.created_at as created_at','manufacturers.name as manufacturer')
-            ->orderby('smartdevices.manufacturer_id', 'desc')
-            ->get();
-        ///$devices = Smartdevice::paginate(6);
+        $devices = Smartdevice::with('manufacturer');
 
         //Return collection of devices as resource 
         return DeviceResource::collection($devices);

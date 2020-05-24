@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Manufacturer;
+use Validator;
+
 use App\Http\Resources\Manufacturer as ManufacturerResource;
 
 class ManufacturersController extends Controller
@@ -16,9 +18,9 @@ class ManufacturersController extends Controller
      */
     public function index()
     {
-        $manufactures = Manufacturer::with('devices');
+        $manufacturers = Manufacturer::with('devices')->get();
 
-        return ManufacturerResource::collection($manufactures);
+        return ManufacturerResource::collection($manufacturers);
     }
 
     /**
@@ -29,7 +31,22 @@ class ManufacturersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required',
+        ]);
+        
+        if ($validator->fails()) { 
+                    return response()->json(['error'=>$validator->errors()], 401);            
+            }
+        
+        //  create a new device
+        $input = $request->all(); 
+        $manufacturer = Manufacturer::create($input); 
+        
+        //Reeturn newly created device as a resource 
+        if ($manufacturer) {
+            return new ManufacturerResource($manufacturer);
+        }
     }
 
     /**

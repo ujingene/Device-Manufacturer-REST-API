@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 use App\Smartdevice;
 use Validator;
 use DB;
-use App\Http\Resources\DeviceResource as DeviceResource;
+use App\Http\Resources\Device as DeviceResource;
 
 class DeviceController extends Controller
 {
     public function index()
     {
-        $devices = Smartdevice::with('manufacturer');
-
+        $devices = Smartdevice::with('manufacturer')->get();
+        //return $devices;
         //Return collection of devices as resource 
         return DeviceResource::collection($devices);
     }
@@ -52,8 +52,22 @@ class DeviceController extends Controller
     
     public function update(Request $request, $id)
     {       
+        $this->validate($request,[
+            'manufacturer_id'  => 'required',
+            'description'  => 'required'
+        ]);
+
+        $updateDetails = [
+            'manufacturer_id' => $request->manufacturer_id,
+            'description'  => $request->description,
+            'updated_at'    => now()
+        ];
+
+        DB::table('smartdevices')
+            ->where('id', $id)
+            ->update($updateDetails);
+
         $device = Smartdevice::findOrFail($id);
-        $device->update($request->all());
         
         return new DeviceResource($device);
     }
@@ -61,13 +75,20 @@ class DeviceController extends Controller
     
     public function destroy($id)
     {
-        header("Access-Control-Allow-Origin: *");
         // Get the smart device 
         $device = Smartdevice::findOrFail($id);
         
         //  Delete the smart device
-        if ($device->delete()) {
-            return redirect()->route('smart-device.index');
+        if ($device) {
+            Smartdevice::destroy($id);
+            $devices = Smartdevice::with('manufacturer')->get();
+        
+            return DeviceResource::collection($devices);
+        }
+        else {
+            return $this->error('Device not found');
+            return new DeviceResource($device);
+
         }
     }
 }

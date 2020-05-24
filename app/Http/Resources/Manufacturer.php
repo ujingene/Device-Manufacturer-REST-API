@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class Manufacturers extends ResourceCollection
+class Manufacturer extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -17,7 +17,6 @@ class Manufacturers extends ResourceCollection
         return [
         'id' => $this->id,
         'manufacturer' => $this->name,
-        'device' => $this->manufacturer,
       ];
     }
 }

@@ -1,7 +1,7 @@
  > Laravel REST API to manage devices and it corresponding Manufacturer
 
 - Link to Hosted API on Heroku
-![Heroku Api](https://stark-beyond-32222.herokuapp.com/api/smart-device/)
+[Heroku Api](https://stark-beyond-32222.herokuapp.com/api/smart-device/)
 
 ### Required Development Environment. 
 
